@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>
+    Admin Panel | Fasthabiqul Khairath 2026
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+
+<body data-page="admin">
+
+<main>
+
+  <!-- PAGE HEADING -->
+  <section class="page-hero">
+    <div class="shell">
+
+      <div class="eyebrow">
+        Fasthabiqul Khairath
+      </div>
+
+      <h1>
+        Admin Panel
+      </h1>
+
+      <p>
+        Restricted administration area for
+        Melaad Fest 2026.
+      </p>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+
+    <div class="shell">
+
+      <!-- SETUP / ERROR MESSAGE -->
+      <div
+        id="setupWarning"
+        class="status"
+      ></div>
+
+
+      <!-- ========================= -->
+      <!-- ADMIN LOGIN -->
+      <!-- ========================= -->
+
+      <div
+        id="adminLogin"
+        class="admin-card card"
+        style="max-width:560px;margin:0 auto;"
+      >
+
+        <h2>
+          Admin Login
+        </h2>
+
+        <p>
+          Enter your administrator email
+          and password.
+        </p>
+
+
+        <form
+          id="loginForm"
+          class="form-grid"
+        >
+
+          <label>
+            Admin Email
+
+            <input
+              id="adminEmail"
+              type="email"
+              required
+              autocomplete="username"
+              placeholder="Your admin email"
+            >
+          </label>
+
+
+          <label>
+            Password
+
+            <input
+              id="adminPassword"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Your password"
+            >
+          </label>
+
+
+          <button
+            class="btn btn-primary"
+            type="submit"
+          >
+            Login
+          </button>
+
+
+          <div
+            id="loginStatus"
+            class="status"
+          ></div>
+
+        </form>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- ADMIN DASHBOARD -->
+      <!-- ========================= -->
+
+      <div
+        id="adminApp"
+        hidden
+      >
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:20px;
+            margin-bottom:30px;
+          "
+        >
+
+          <div>
+
+            <div class="eyebrow">
+              Administrator
+            </div>
+
+            <h2>
+              Competition Dashboard
+            </h2>
+
+          </div>
+
+
+          <button
+            id="logoutBtn"
+            class="btn btn-secondary"
+            type="button"
+          >
+            Log Out
+          </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- SCORE ENTRY -->
+        <!-- ========================= -->
+
+        <article class="card">
+
+          <h2>
+            Add / Update Points
+          </h2>
+
+          <p>
+            Enter participant or team/group
+            competition points.
+          </p>
+
+
+          <form
+            id="scoreForm"
+            class="form-grid"
+          >
+
+            <label>
+              Category
+
+              <select
+                id="scoreCategory"
+                required
+              >
+
+                <option value="Senior">
+                  Senior
+                </option>
+
+                <option value="Junior">
+                  Junior
+                </option>
+
+              </select>
+
+            </label>
+
+
+            <label>
+              Programme
+
+              <select
+                id="scoreProgramme"
+                required
+              ></select>
+
+            </label>
+
+
+            <label>
+              Team
+
+              <select
+                id="scoreTeam"
+                required
+              >
+
+                <option value="yarmuqiyya">
+                  YARMUQIYYA
+                </option>
+
+                <option value="qadisiyya">
+                  QADISIYYA
+                </option>
+
+              </select>
+
+            </label>
+
+
+            <label>
+              Score Type
+
+              <select
+                id="scoreType"
+                required
+              >
+
+                <option value="individual">
+                  Individual Participant
+                </option>
+
+                <option value="team">
+                  Team / Group Programme
+                </option>
+
+              </select>
+
+            </label>
+
+
+            <label
+              id="participantField"
+            >
+              Participant
+
+              <select
+                id="scoreParticipant"
+              ></select>
+
+            </label>
+
+
+            <label>
+              Points
+
+              <input
+                id="scorePoints"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+                placeholder="Enter points"
+              >
+            </label>
+
+
+            <button
+              class="btn btn-primary"
+              type="submit"
+            >
+              Save Points
+            </button>
+
+
+            <div
+              id="scoreStatus"
+              class="status"
+            ></div>
+
+          </form>
+
+        </article>
+
+
+        <br>
+
+
+        <!-- ========================= -->
+        <!-- GALLERY UPLOAD -->
+        <!-- ========================= -->
+
+        <article class="card">
+
+          <h2>
+            Upload to Gallery
+          </h2>
+
+
+          <form
+            id="galleryForm"
+            class="form-grid"
+          >
+
+            <label>
+              Title
+
+              <input
+                id="galleryTitle"
+                type="text"
+                maxlength="150"
+                placeholder="Example: Opening Ceremony"
+              >
+            </label>
+
+
+            <label>
+              Photo / Video
+
+              <input
+                id="galleryFile"
+                type="file"
+                accept="image/*,video/*"
+                required
+              >
+            </label>
+
+
+            <button
+              class="btn btn-primary"
+              type="submit"
+            >
+              Upload Media
+            </button>
+
+
+            <div
+              id="galleryStatus"
+              class="status"
+            ></div>
+
+          </form>
+
+        </article>
+
+
+        <br>
+
+
+        <!-- ========================= -->
+        <!-- CURRENT MARKS -->
+        <!-- ========================= -->
+
+        <article class="card">
+
+          <h2>
+            Current Marks
+          </h2>
+
+
+          <div style="overflow-x:auto;">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Participant
+                  </th>
+
+                  <th>
+                    Team
+                  </th>
+
+                  <th>
+                    Programme
+                  </th>
+
+                  <th>
+                    Points
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody
+                id="marksTable"
+              >
+
+                <tr>
+                  <td colspan="5">
+                    No marks entered yet.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+
+        <br>
+
+
+        <!-- ========================= -->
+        <!-- GALLERY RECORDS -->
+        <!-- ========================= -->
+
+        <article class="card">
+
+          <h2>
+            Gallery Items
+          </h2>
+
+
+          <div style="overflow-x:auto;">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Title
+                  </th>
+
+                  <th>
+                    Type
+                  </th>
+
+                  <th>
+                    Uploaded
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody
+                id="galleryTable"
+              >
+
+                <tr>
+                  <td colspan="4">
+                    No gallery uploads yet.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+
+        <br>
+
+
+        <!-- ========================= -->
+        <!-- VISITOR LOG -->
+        <!-- ========================= -->
+
+        <article class="card">
+
+          <h2>
+            Visitor Access Log
+          </h2>
+
+
+          <div style="overflow-x:auto;">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Name
+                  </th>
+
+                  <th>
+                    Place
+                  </th>
+
+                  <th>
+                    Date / Time
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody
+                id="visitorTable"
+              >
+
+                <tr>
+                  <td colspan="3">
+                    No visitor entries yet.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- IMPORTANT: KEEP THIS ORDER -->
+
+<script src="config.js"></script>
+
+<script src="data.js"></script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="app.js"></script>
+
+<script src="admin.js"></script>
+
+
+</body>
+</html>
