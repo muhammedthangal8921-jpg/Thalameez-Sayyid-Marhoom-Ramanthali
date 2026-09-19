@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8">
 
   <meta
@@ -17,15 +18,22 @@
     rel="stylesheet"
     href="styles.css"
   >
+
 </head>
 
 
 <body data-page="admin">
 
+
 <main>
 
+
+  <!-- ====================================== -->
   <!-- PAGE HEADING -->
+  <!-- ====================================== -->
+
   <section class="page-hero">
+
     <div class="shell">
 
       <div class="eyebrow">
@@ -42,33 +50,44 @@
       </p>
 
     </div>
+
   </section>
+
 
 
   <section class="section">
 
     <div class="shell">
 
-      <!-- SETUP / ERROR MESSAGE -->
+
+      <!-- ====================================== -->
+      <!-- SETUP / CONNECTION WARNING -->
+      <!-- ====================================== -->
+
       <div
         id="setupWarning"
         class="status"
       ></div>
 
 
-      <!-- ========================= -->
+
+      <!-- ====================================== -->
       <!-- ADMIN LOGIN -->
-      <!-- ========================= -->
+      <!-- ====================================== -->
 
       <div
         id="adminLogin"
         class="admin-card card"
-        style="max-width:560px;margin:0 auto;"
+        style="
+          max-width:560px;
+          margin:0 auto;
+        "
       >
 
         <h2>
           Admin Login
         </h2>
+
 
         <p>
           Enter your administrator email
@@ -81,7 +100,9 @@
           class="form-grid"
         >
 
+
           <label>
+
             Admin Email
 
             <input
@@ -91,10 +112,12 @@
               autocomplete="username"
               placeholder="Your admin email"
             >
+
           </label>
 
 
           <label>
+
             Password
 
             <input
@@ -104,6 +127,7 @@
               autocomplete="current-password"
               placeholder="Your password"
             >
+
           </label>
 
 
@@ -120,19 +144,25 @@
             class="status"
           ></div>
 
+
         </form>
+
 
       </div>
 
 
-      <!-- ========================= -->
+
+      <!-- ====================================== -->
       <!-- ADMIN DASHBOARD -->
-      <!-- ========================= -->
+      <!-- ====================================== -->
 
       <div
         id="adminApp"
         hidden
       >
+
+
+        <!-- ADMIN HEADER -->
 
         <div
           style="
@@ -141,6 +171,7 @@
             align-items:center;
             gap:20px;
             margin-bottom:30px;
+            flex-wrap:wrap;
           "
         >
 
@@ -168,9 +199,10 @@
         </div>
 
 
-        <!-- ========================= -->
+
+        <!-- ====================================== -->
         <!-- SCORE ENTRY -->
-        <!-- ========================= -->
+        <!-- ====================================== -->
 
         <article class="card">
 
@@ -189,7 +221,9 @@
             class="form-grid"
           >
 
+
             <label>
+
               Category
 
               <select
@@ -210,7 +244,9 @@
             </label>
 
 
+
             <label>
+
               Programme
 
               <select
@@ -221,7 +257,9 @@
             </label>
 
 
+
             <label>
+
               Team
 
               <select
@@ -242,7 +280,9 @@
             </label>
 
 
+
             <label>
+
               Score Type
 
               <select
@@ -263,9 +303,11 @@
             </label>
 
 
+
             <label
               id="participantField"
             >
+
               Participant
 
               <select
@@ -275,7 +317,9 @@
             </label>
 
 
+
             <label>
+
               Points
 
               <input
@@ -286,7 +330,9 @@
                 required
                 placeholder="Enter points"
               >
+
             </label>
+
 
 
             <button
@@ -302,17 +348,21 @@
               class="status"
             ></div>
 
+
           </form>
 
+
         </article>
+
 
 
         <br>
 
 
-        <!-- ========================= -->
+
+        <!-- ====================================== -->
         <!-- GALLERY UPLOAD -->
-        <!-- ========================= -->
+        <!-- ====================================== -->
 
         <article class="card">
 
@@ -320,13 +370,19 @@
             Upload to Gallery
           </h2>
 
+          <p>
+            Upload photos or videos for visitors.
+          </p>
+
 
           <form
             id="galleryForm"
             class="form-grid"
           >
 
+
             <label>
+
               Title
 
               <input
@@ -335,10 +391,13 @@
                 maxlength="150"
                 placeholder="Example: Opening Ceremony"
               >
+
             </label>
 
 
+
             <label>
+
               Photo / Video
 
               <input
@@ -347,7 +406,9 @@
                 accept="image/*,video/*"
                 required
               >
+
             </label>
+
 
 
             <button
@@ -363,17 +424,21 @@
               class="status"
             ></div>
 
+
           </form>
 
+
         </article>
+
 
 
         <br>
 
 
-        <!-- ========================= -->
+
+        <!-- ====================================== -->
         <!-- CURRENT MARKS -->
-        <!-- ========================= -->
+        <!-- ====================================== -->
 
         <article class="card">
 
@@ -382,7 +447,11 @@
           </h2>
 
 
-          <div style="overflow-x:auto;">
+          <div
+            style="
+              overflow-x:auto;
+            "
+          >
 
             <table>
 
@@ -420,9 +489,11 @@
               >
 
                 <tr>
+
                   <td colspan="5">
                     No marks entered yet.
                   </td>
+
                 </tr>
 
               </tbody>
@@ -431,15 +502,18 @@
 
           </div>
 
+
         </article>
+
 
 
         <br>
 
 
-        <!-- ========================= -->
-        <!-- GALLERY RECORDS -->
-        <!-- ========================= -->
+
+        <!-- ====================================== -->
+        <!-- GALLERY ITEMS -->
+        <!-- ====================================== -->
 
         <article class="card">
 
@@ -448,7 +522,11 @@
           </h2>
 
 
-          <div style="overflow-x:auto;">
+          <div
+            style="
+              overflow-x:auto;
+            "
+          >
 
             <table>
 
@@ -482,9 +560,11 @@
               >
 
                 <tr>
+
                   <td colspan="4">
                     No gallery uploads yet.
                   </td>
+
                 </tr>
 
               </tbody>
@@ -493,15 +573,18 @@
 
           </div>
 
+
         </article>
+
 
 
         <br>
 
 
-        <!-- ========================= -->
-        <!-- VISITOR LOG -->
-        <!-- ========================= -->
+
+        <!-- ====================================== -->
+        <!-- VISITOR ACCESS LOG -->
+        <!-- ====================================== -->
 
         <article class="card">
 
@@ -510,7 +593,11 @@
           </h2>
 
 
-          <div style="overflow-x:auto;">
+          <div
+            style="
+              overflow-x:auto;
+            "
+          >
 
             <table>
 
@@ -540,9 +627,11 @@
               >
 
                 <tr>
+
                   <td colspan="3">
                     No visitor entries yet.
                   </td>
+
                 </tr>
 
               </tbody>
@@ -551,31 +640,43 @@
 
           </div>
 
+
         </article>
 
       </div>
+      <!-- END ADMIN APP -->
+
 
     </div>
 
   </section>
 
+
 </main>
 
 
+
+<!-- ====================================== -->
+<!-- JAVASCRIPT -->
 <!-- IMPORTANT: KEEP THIS ORDER -->
+<!-- ====================================== -->
+
 
 <script src="config.js"></script>
 
+
 <script src="data.js"></script>
+
 
 <script
   src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
+
 <script src="app.js"></script>
 
+
 <script src="admin.js"></script>
-
-
 </body>
+
 </html>
