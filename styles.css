@@ -3635,3 +3635,101 @@ body[data-page="home"] .home-live-card {
   }
 
 }
+/* =========================================================
+   HOME LIVE STANDING — SLIGHTLY LARGER
+========================================================= */
+
+body[data-page="home"] .home-live-card {
+  padding: 34px;
+  border-radius: 32px;
+}
+
+
+/* Live Standing heading */
+
+body[data-page="home"] .home-live-header h2 {
+  font-size: 32px;
+}
+
+
+/* Overall team score area */
+
+body[data-page="home"] .home-versus {
+  padding: 26px 16px;
+}
+
+
+/* Team names */
+
+body[data-page="home"] .home-versus-team span {
+  font-size: 12px;
+}
+
+
+/* Main overall scores */
+
+body[data-page="home"] .home-versus-team strong {
+  font-size: clamp(46px, 6vw, 64px);
+}
+
+
+/* VS circle */
+
+body[data-page="home"] .home-vs {
+  width: 48px;
+  height: 48px;
+
+  font-size: 11px;
+}
+
+
+/* Senior + Junior rows */
+
+body[data-page="home"] .home-category-row {
+  padding: 14px 15px;
+}
+
+
+/* Senior / Junior numbers */
+
+body[data-page="home"] .home-category-row strong {
+  font-size: 20px;
+}
+
+
+/* Team leader / standing ribbon */
+
+body[data-page="home"] .home-team-champion {
+  padding: 15px 17px;
+
+  font-size: 12px;
+}
+
+
+/* Keep mobile size comfortable */
+
+@media (max-width: 600px) {
+
+  body[data-page="home"] .home-live-card {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  body[data-page="home"] .home-live-header h2 {
+    font-size: 27px;
+  }
+
+  body[data-page="home"] .home-versus {
+    padding: 20px 10px;
+  }
+
+  body[data-page="home"] .home-versus-team strong {
+    font-size: 42px;
+  }
+
+  body[data-page="home"] .home-vs {
+    width: 39px;
+    height: 39px;
+  }
+
+}
