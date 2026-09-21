@@ -582,66 +582,254 @@
 
 
 
-        <!-- ====================================== -->
-        <!-- VISITOR ACCESS LOG -->
-        <!-- ====================================== -->
+      <!-- ====================================== -->
+<!-- VISITOR ANALYTICS -->
+<!-- ====================================== -->
 
-        <article class="card">
+<article class="card">
 
-          <h2>
-            Visitor Access Log
-          </h2>
+  <div
+    style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    "
+  >
 
+    <div>
 
-          <div
-            style="
-              overflow-x:auto;
-            "
-          >
+      <h2 style="margin-bottom:6px;">
+        Visitor Analytics
+      </h2>
 
-            <table>
+      <p style="margin:0;">
+        Live website entry and active viewing statistics.
+      </p>
 
-              <thead>
-
-                <tr>
-
-                  <th>
-                    Name
-                  </th>
-
-                  <th>
-                    Place
-                  </th>
-
-                  <th>
-                    Date / Time
-                  </th>
-
-                </tr>
-
-              </thead>
+    </div>
 
 
-              <tbody
-                id="visitorTable"
-              >
+    <button
+      id="visitorRefreshBtn"
+      class="btn btn-secondary btn-small"
+      type="button"
+    >
+      Refresh Analytics
+    </button>
 
-                <tr>
-
-                  <td colspan="3">
-                    No visitor entries yet.
-                  </td>
-
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
+  </div>
 
 
-        </article>
+  <div
+    style="
+      display:grid;
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(180px,1fr)
+        );
+      gap:16px;
+      margin-top:22px;
+    "
+  >
+
+
+    <!-- TOTAL PEOPLE -->
+
+    <div
+      style="
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:16px;
+        padding:18px;
+      "
+    >
+
+      <div class="eyebrow">
+        Total People
+      </div>
+
+      <div
+        id="totalVisitors"
+        style="
+          font-size:34px;
+          font-weight:800;
+          line-height:1.1;
+          margin-top:8px;
+        "
+      >
+        0
+      </div>
+
+      <small>
+        Registered visitors
+      </small>
+
+    </div>
+
+
+
+    <!-- TOTAL WEBSITE ENTRIES -->
+
+    <div
+      style="
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:16px;
+        padding:18px;
+      "
+    >
+
+      <div class="eyebrow">
+        Website Entries
+      </div>
+
+      <div
+        id="totalEntries"
+        style="
+          font-size:34px;
+          font-weight:800;
+          line-height:1.1;
+          margin-top:8px;
+        "
+      >
+        0
+      </div>
+
+      <small>
+        Total visit sessions
+      </small>
+
+    </div>
+
+
+
+    <!-- TOTAL WATCH TIME -->
+
+    <div
+      style="
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:16px;
+        padding:18px;
+      "
+    >
+
+      <div class="eyebrow">
+        Total Watching Time
+      </div>
+
+      <div
+        id="totalWatchTime"
+        style="
+          font-size:30px;
+          font-weight:800;
+          line-height:1.1;
+          margin-top:8px;
+        "
+      >
+        0s
+      </div>
+
+      <small>
+        Active visible-page time
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <p
+    style="
+      margin-top:18px;
+      font-size:13px;
+      opacity:.78;
+    "
+  >
+    Existing visitor records are preserved.
+    Historical visitors are counted once as
+    their original website entry. Accurate
+    repeat visits and watching time start
+    after this analytics upgrade.
+  </p>
+
+</article>
+
+
+
+<br>
+
+
+
+<!-- ====================================== -->
+<!-- VISITOR ACCESS LOG -->
+<!-- ====================================== -->
+
+<article class="card">
+
+  <h2>
+    Visitor Access Log
+  </h2>
+
+
+  <div
+    style="overflow-x:auto;"
+  >
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Name
+          </th>
+
+          <th>
+            Place
+          </th>
+
+          <th>
+            First Entered
+          </th>
+
+          <th>
+            Website Entries
+          </th>
+
+          <th>
+            Watching Time
+          </th>
+
+          <th>
+            Last Seen
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="visitorTable"
+      >
+
+        <tr>
+
+          <td colspan="6">
+            No visitor entries yet.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</article>
 
       </div>
       <!-- END ADMIN APP -->

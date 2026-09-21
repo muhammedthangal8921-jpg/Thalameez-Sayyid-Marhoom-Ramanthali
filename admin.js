@@ -34,12 +34,166 @@
 
   return data === true;
 }
-    let visitors=[];
+let visitors = [];
 
-    async function loadVisitors(){
-      const { data, error }=await client.from('visitors').select('*').order('created_at',{ascending:false}).limit(500);
-      if(!error) visitors=data||[];
-    }
+let visitorSessions = [];
+
+let scheduleItems = [];
+
+
+async function loadVisitors(){
+
+  const [
+    visitorResult,
+    sessionResult
+  ] = await Promise.all([
+
+    client
+      .from('visitors')
+      .select('*')
+      .order(
+        'created_at',
+        { ascending:false }
+      )
+      .limit(5000),
+
+
+    client
+      .from('visitor_sessions')
+      .select('*')
+      .order(
+        'started_at',
+        { ascending:false }
+      )
+      .limit(10000)
+
+  ]);
+
+
+  if(visitorResult.error){
+
+    console.error(
+      'Visitor load failed:',
+      visitorResult.error
+    );
+
+    visitors = [];
+
+  } else {
+
+    visitors =
+      visitorResult.data || [];
+
+  }
+
+
+  if(sessionResult.error){
+
+    console.error(
+      'Visitor analytics load failed:',
+      sessionResult.error
+    );
+
+    visitorSessions = [];
+
+  } else {
+
+    visitorSessions =
+      sessionResult.data || [];
+
+  }
+}
+
+
+
+function formatDuration(totalSeconds){
+
+  const seconds =
+    Math.max(
+      0,
+      Math.round(
+        Number(totalSeconds) || 0
+      )
+    );
+
+
+  const h =
+    Math.floor(
+      seconds / 3600
+    );
+
+
+  const m =
+    Math.floor(
+      (seconds % 3600) / 60
+    );
+
+
+  const s =
+    seconds % 60;
+
+
+  if(h > 0){
+
+    return `${h}h ${m}m ${s}s`;
+
+  }
+
+
+  if(m > 0){
+
+    return `${m}m ${s}s`;
+
+  }
+
+
+  return `${s}s`;
+}
+
+
+
+function sessionsForVisitor(visitor){
+
+  const name =
+    String(
+      visitor.name || ''
+    )
+    .trim()
+    .toLowerCase();
+
+
+  const place =
+    String(
+      visitor.place || ''
+    )
+    .trim()
+    .toLowerCase();
+
+
+  return visitorSessions.filter(
+    session =>
+
+      session.visitor_id ===
+        visitor.id ||
+
+      (
+        !session.visitor_id &&
+
+        String(
+          session.name || ''
+        )
+        .trim()
+        .toLowerCase() === name &&
+
+        String(
+          session.place || ''
+        )
+        .trim()
+        .toLowerCase() === place
+      )
+
+  );
+}
 
     async function showSession() {
       const { data: { session } } = await client.auth.getSession();
@@ -141,7 +295,38 @@ await showSession(); });
       $('#galleryForm').reset(); await FK.loadGallery(); renderTables(); status($('#galleryStatus'),'Gallery item uploaded successfully. Visitors can now view and download it.');
     });
 
-    $('#logoutBtn').addEventListener('click',async()=>{ await client.auth.signOut(); location.reload(); });
+   $('#visitorRefreshBtn')
+  ?.addEventListener(
+    'click',
+    async () => {
+
+      const btn =
+        $('#visitorRefreshBtn');
+
+
+      const original =
+        btn.textContent;
+
+
+      btn.disabled = true;
+
+      btn.textContent =
+        'Refreshing…';
+
+
+      await loadVisitors();
+
+
+      renderTables();
+
+
+      btn.disabled = false;
+
+      btn.textContent =
+        original;
+
+    }
+  );
 
     async function deleteScore(id){
       if(!confirm('Delete this mark entry?')) return;
@@ -181,9 +366,175 @@ await showSession(); });
 
       $('#galleryTable').innerHTML = FK.state.gallery.length ? FK.state.gallery.map(g=>`<tr><td>${FK.esc(g.title||'Melaad Fest 2026')}</td><td>${FK.esc(g.media_type||'')}</td><td>${new Date(g.created_at).toLocaleString()}</td><td><button class="btn btn-danger btn-small" data-del-gallery="${g.id}" data-path="${FK.esc(g.file_path||'')}">Delete</button></td></tr>`).join('') : `<tr><td colspan="4">No gallery uploads yet.</td></tr>`;
       document.querySelectorAll('[data-del-gallery]').forEach(b=>b.onclick=()=>deleteGallery(b.dataset.delGallery,b.dataset.path));
-      const visitorTable=$('#visitorTable');
-      if(visitorTable) visitorTable.innerHTML = visitors.length ? visitors.map(v=>`<tr><td>${FK.esc(v.name)}</td><td>${FK.esc(v.place)}</td><td>${new Date(v.created_at).toLocaleString()}</td></tr>`).join('') : `<tr><td colspan="3">No visitor entries yet.</td></tr>`;
-    }
+      
+     const totalVisitors =
+  visitors.length;
+
+
+const totalEntries =
+  visitorSessions.length;
+
+
+const totalWatchSeconds =
+  visitorSessions.reduce(
+    (sum, session) =>
+      sum +
+      Number(
+        session.duration_seconds || 0
+      ),
+    0
+  );
+
+
+if($('#totalVisitors')){
+
+  $('#totalVisitors')
+    .textContent =
+      String(totalVisitors);
+
+}
+
+
+if($('#totalEntries')){
+
+  $('#totalEntries')
+    .textContent =
+      String(totalEntries);
+
+}
+
+
+if($('#totalWatchTime')){
+
+  $('#totalWatchTime')
+    .textContent =
+      formatDuration(
+        totalWatchSeconds
+      );
+
+}
+
+
+
+const visitorTable =
+  $('#visitorTable');
+
+
+if(visitorTable){
+
+  visitorTable.innerHTML =
+
+    visitors.length
+
+    ? visitors.map(v => {
+
+
+        const sessions =
+          sessionsForVisitor(v);
+
+
+        const watchSeconds =
+          sessions.reduce(
+            (sum, session) =>
+
+              sum +
+              Number(
+                session.duration_seconds || 0
+              ),
+
+            0
+          );
+
+
+        const lastSeen =
+          sessions.length
+
+          ? sessions.reduce(
+              (latest, session) => {
+
+                const value =
+                  new Date(
+                    session.last_seen_at ||
+                    session.started_at ||
+                    0
+                  ).getTime();
+
+
+                return value > latest
+                  ? value
+                  : latest;
+
+              },
+              0
+            )
+
+          : new Date(
+              v.created_at
+            ).getTime();
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${FK.esc(v.name)}
+            </td>
+
+            <td>
+              ${FK.esc(v.place)}
+            </td>
+
+            <td>
+              ${new Date(
+                v.created_at
+              ).toLocaleString()}
+            </td>
+
+            <td>
+              <b>
+                ${sessions.length}
+              </b>
+            </td>
+
+            <td>
+              <b>
+                ${
+                  formatDuration(
+                    watchSeconds
+                  )
+                }
+              </b>
+            </td>
+
+            <td>
+              ${
+                new Date(
+                  lastSeen
+                ).toLocaleString()
+              }
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join('')
+
+    : `
+
+      <tr>
+
+        <td colspan="6">
+          No visitor entries yet.
+        </td>
+
+      </tr>
+
+    `;
+
+}
+    }const visitorTable=$('#visitorTable');
 
     client.auth.onAuthStateChange(()=>setTimeout(showSession,0));
     await showSession();

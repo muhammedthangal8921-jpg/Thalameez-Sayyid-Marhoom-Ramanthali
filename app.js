@@ -1785,227 +1785,388 @@
      VISITOR ACCESS
   ===================================== */
 
-  function installAccessGate() {
+function getStoredVisitor(){
+  try {
+    const raw = localStorage.getItem('fk_visitor');
+
+    if(!raw) return null;
+
+    const parsed = JSON.parse(raw);
+
+    if(!parsed?.name || !parsed?.place) {
+      return null;
+    }
+
+    return parsed;
+
+  } catch {
+    return null;
+  }
+}
 
 
-    if (
-      page === 'admin'
-    ) return;
+function startVisitorTracking(visitor){
+
+  if(
+    page === 'admin' ||
+    !client ||
+    !visitor?.name ||
+    !visitor?.place
+  ){
+    return;
+  }
 
 
-    if (
-      localStorage.getItem(
-        'fk_visitor'
-      )
-    ) return;
+  const keyName = 'fk_visit_session_key';
+  const secondsName = 'fk_visit_active_seconds';
+  const lastTickName = 'fk_visit_last_tick';
 
 
-    const gate =
-      document.createElement(
-        'div'
-      );
+  let sessionKey =
+    sessionStorage.getItem(keyName);
 
 
-    gate.className =
-      'access-gate open';
+  // New browser-tab visit
+  if(!sessionKey){
+
+    sessionKey = crypto.randomUUID();
+
+    sessionStorage.setItem(
+      keyName,
+      sessionKey
+    );
+
+    sessionStorage.setItem(
+      secondsName,
+      '0'
+    );
+  }
 
 
-    gate.id =
-      'accessGate';
-
-
-    gate.innerHTML = `
-
-      <div class="access-card">
-
-
-        <div class="access-emblem">
-          ☾
-        </div>
-
-
-        <div class="eyebrow">
-          Welcome to Melaad Fest 2026
-        </div>
-
-
-        <h1>
-          Fasthabiqul Khairath
-        </h1>
-
-
-        <p>
-          Please enter your name
-          and place to access the
-          live competition website.
-        </p>
-
-
-        <form
-          id="visitorForm"
-          class="form-grid"
-        >
-
-
-          <label>
-
-            Name
-
-            <input
-              id="visitorName"
-              required
-              maxlength="80"
-              placeholder="Your name"
-            >
-
-          </label>
-
-
-          <label>
-
-            Place
-
-            <input
-              id="visitorPlace"
-              required
-              maxlength="100"
-              placeholder="Your place"
-            >
-
-          </label>
-
-
-          <button
-            class="btn btn-primary"
-            type="submit"
-          >
-
-            Enter Website
-
-          </button>
-
-
-          <div
-            id="visitorStatus"
-            class="status"
-          ></div>
-
-
-        </form>
-
-
-      </div>
-
-    `;
-
-
-    document.body.append(
-      gate
+  let activeSeconds =
+    Math.max(
+      0,
+      Number(
+        sessionStorage.getItem(secondsName)
+      ) || 0
     );
 
 
-    $('#visitorForm')
-      .addEventListener(
-        'submit',
-        async e => {
+  let lastTick = Date.now();
+
+  sessionStorage.setItem(
+    lastTickName,
+    String(lastTick)
+  );
 
 
-          e.preventDefault();
+  // Create / resume this visit in Supabase
+  client.rpc(
+    'start_visitor_session',
+    {
+      p_name: visitor.name,
+      p_place: visitor.place,
+      p_session_key: sessionKey,
+      p_visitor_created_at:
+        visitor.at || null
+    }
+  )
+  .then(({ error }) => {
 
-
-          const name =
-            $('#visitorName')
-              .value
-              .trim();
-
-
-          const place =
-            $('#visitorPlace')
-              .value
-              .trim();
-
-
-          if (
-            !name ||
-            !place
-          ) return;
-
-
-          const st =
-            $('#visitorStatus');
-
-
-          st.className =
-            'status show';
-
-
-          st.textContent =
-            'Opening website…';
-
-
-
-          if (client) {
-
-
-            const {
-              error
-            } =
-              await client
-
-                .from(
-                  'visitors'
-                )
-
-                .insert({
-                  name,
-                  place
-                });
-
-
-            if (error) {
-
-
-              st.className =
-                'status show error';
-
-
-              st.textContent =
-                'Could not save your entry. Please try again.';
-
-
-              return;
-            }
-
-          }
-
-
-
-          localStorage.setItem(
-
-            'fk_visitor',
-
-            JSON.stringify({
-
-              name,
-
-              place,
-
-              at:
-                new Date()
-                  .toISOString()
-
-            })
-
-          );
-
-
-          gate.classList.remove(
-            'open'
-          );
-
-        }
+    if(error){
+      console.error(
+        'Visitor session start failed:',
+        error
       );
+    }
+
+  });
+
+
+  let syncing = false;
+
+
+  async function syncVisitTime(){
+
+    const now = Date.now();
+
+    // Maximum 30 seconds is accepted for one tick
+    // to avoid large false time values.
+    const elapsed =
+      Math.max(
+        0,
+        Math.min(
+          (now - lastTick) / 1000,
+          30
+        )
+      );
+
+
+    // Count only when website tab is visible
+    if(
+      document.visibilityState === 'visible'
+    ){
+      activeSeconds += elapsed;
+    }
+
+
+    lastTick = now;
+
+
+    sessionStorage.setItem(
+      secondsName,
+      String(activeSeconds)
+    );
+
+    sessionStorage.setItem(
+      lastTickName,
+      String(lastTick)
+    );
+
+
+    if(syncing) return;
+
+    syncing = true;
+
+
+    try {
+
+      const { error } =
+        await client.rpc(
+          'touch_visitor_session',
+          {
+            p_session_key: sessionKey,
+            p_duration_seconds:
+              Math.round(activeSeconds)
+          }
+        );
+
+
+      if(error){
+        console.error(
+          'Visitor session update failed:',
+          error
+        );
+      }
+
+    } finally {
+
+      syncing = false;
+
+    }
   }
+
+
+  // Update every 10 seconds
+  const timer =
+    setInterval(
+      syncVisitTime,
+      10000
+    );
+
+
+  // Update when user changes tab
+  document.addEventListener(
+    'visibilitychange',
+    syncVisitTime
+  );
+
+
+  // Final update when leaving website
+  window.addEventListener(
+    'pagehide',
+    () => {
+
+      clearInterval(timer);
+
+      syncVisitTime();
+
+    },
+    { once: true }
+  );
+}
+
+
+
+function installAccessGate(){
+
+  if(page === 'admin') return;
+
+
+  if(
+    localStorage.getItem('fk_visitor')
+  ){
+    return;
+  }
+
+
+  const gate =
+    document.createElement('div');
+
+
+  gate.className =
+    'access-gate open';
+
+  gate.id =
+    'accessGate';
+
+
+  gate.innerHTML = `
+    <div class="access-card">
+
+      <div class="access-emblem">
+        ☾
+      </div>
+
+      <div class="eyebrow">
+        Welcome to Melaad Fest 2026
+      </div>
+
+      <h1>
+        Fasthabiqul Khairath
+      </h1>
+
+      <p>
+        Please enter your name and place
+        to access the live competition website.
+      </p>
+
+      <form
+        id="visitorForm"
+        class="form-grid"
+      >
+
+        <label>
+          Name
+
+          <input
+            id="visitorName"
+            required
+            maxlength="80"
+            placeholder="Your name"
+          >
+
+        </label>
+
+
+        <label>
+          Place
+
+          <input
+            id="visitorPlace"
+            required
+            maxlength="100"
+            placeholder="Your place"
+          >
+
+        </label>
+
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Enter Website
+        </button>
+
+
+        <div
+          id="visitorStatus"
+          class="status"
+        ></div>
+
+      </form>
+
+    </div>
+  `;
+
+
+  document.body.append(gate);
+
+
+  $('#visitorForm')
+    .addEventListener(
+      'submit',
+      async e => {
+
+        e.preventDefault();
+
+
+        const name =
+          $('#visitorName')
+            .value
+            .trim();
+
+
+        const place =
+          $('#visitorPlace')
+            .value
+            .trim();
+
+
+        if(!name || !place){
+          return;
+        }
+
+
+        const st =
+          $('#visitorStatus');
+
+
+        st.className =
+          'status show';
+
+        st.textContent =
+          'Opening website…';
+
+
+        if(client){
+
+          const { error } =
+            await client
+              .from('visitors')
+              .insert({
+                name,
+                place
+              });
+
+
+          if(error){
+
+            st.className =
+              'status show error';
+
+            st.textContent =
+              'Could not save your entry. Please try again.';
+
+            return;
+          }
+        }
+
+
+        const visitor = {
+          name,
+          place,
+          at: new Date().toISOString()
+        };
+
+
+        localStorage.setItem(
+          'fk_visitor',
+          JSON.stringify(visitor)
+        );
+
+
+        gate.classList.remove('open');
+
+
+        startVisitorTracking(
+          visitor
+        );
+
+      }
+    );
+}
 
 
 
@@ -2148,19 +2309,89 @@
      INITIALIZE WEBSITE
   ===================================== */
 
-  async function init() {
+async function init(){
+
+  buildChrome();
+
+  installAccessGate();
+
+  installPersonModal();
 
 
-    buildChrome();
+  const storedVisitor =
+    getStoredVisitor();
 
 
-    installAccessGate();
+  if(storedVisitor){
+
+    startVisitorTracking(
+      storedVisitor
+    );
+
+  }
 
 
-    installPersonModal();
+  await loadMarks();
 
 
-    await loadMarks();
+  if(page === 'gallery'){
+
+    await loadGallery();
+
+  }
+
+
+  renderCurrent();
+
+
+  if(page === 'gallery'){
+
+    renderGallery();
+
+  }
+
+
+  subscribeRealtime();
+
+
+  window.FK = {
+
+    client,
+
+    configured,
+
+    state,
+
+    loadMarks,
+
+    loadGallery,
+
+    renderCurrent,
+
+    renderGallery,
+
+    teamTotal,
+
+    teamProgrammeTotal,
+
+    memberTotal,
+
+    teamName,
+
+    memberById,
+
+    programmeById,
+
+    esc
+
+  };
+
+
+  document.dispatchEvent(
+    new CustomEvent('fk-ready')
+  );
+
+}
 
 
     if (
