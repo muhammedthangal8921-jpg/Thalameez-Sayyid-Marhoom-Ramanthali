@@ -4,6 +4,7 @@
   const page = document.body.dataset.page || 'home';
 
   const configured =
+    C &&
     C.SUPABASE_URL &&
     C.SUPABASE_ANON_KEY &&
     !C.SUPABASE_URL.includes('YOUR-PROJECT') &&
@@ -518,11 +519,6 @@
 
   function renderHome() {
 
-
-    /* -----------------------------
-       TEAM SCORES
-    ----------------------------- */
-
     const totals =
       Object.fromEntries(
 
@@ -558,7 +554,6 @@
       );
 
 
-
     $$('[data-score]')
       .forEach(el => {
 
@@ -577,11 +572,6 @@
 
       });
 
-
-
-    /* -----------------------------
-       TEAM LEADER
-    ----------------------------- */
 
     const teamRanking =
       D.teams
@@ -615,7 +605,6 @@
       teamRanking.length
     ) {
 
-
       if (
 
         teamRanking.length > 1
@@ -638,7 +627,6 @@
 
       ) {
 
-
         banner.textContent =
           `Overall Team Standing: Level at ${
             totals[
@@ -646,9 +634,7 @@
             ]?.overall ?? 0
           } points`;
 
-
       } else {
-
 
         const first =
           teamRanking[0];
@@ -668,17 +654,11 @@
     }
 
 
-
-    /* =====================================
-       INDIVIDUAL LEADERBOARD
-    ===================================== */
-
     function renderLeaderboard(
       rootId,
       members,
       limit = 3
     ) {
-
 
       const root =
         $(rootId);
@@ -723,11 +703,9 @@
           );
 
 
-
       if (
         !ranked.length
       ) {
-
 
         root.innerHTML = `
 
@@ -742,7 +720,6 @@
       }
 
 
-
       root.innerHTML =
         ranked
 
@@ -752,9 +729,7 @@
               i
             ) => `
 
-
               <div class="champion-row">
-
 
                 <div class="rank">
                   ${i + 1}
@@ -793,9 +768,7 @@
 
                 </div>
 
-
               </div>
-
 
             `
           )
@@ -804,11 +777,6 @@
 
     }
 
-
-
-    /* -----------------------------
-       JUNIOR LEADERS
-    ----------------------------- */
 
     const juniorMembers =
       D.members.filter(
@@ -825,11 +793,6 @@
     );
 
 
-
-    /* -----------------------------
-       SENIOR LEADERS
-    ----------------------------- */
-
     const seniorMembers =
       D.members.filter(
         m =>
@@ -844,13 +807,6 @@
       3
     );
 
-
-
-    /* -----------------------------
-       OVERALL INDIVIDUAL LEADERS
-
-       Senior + Junior together
-    ----------------------------- */
 
     renderLeaderboard(
       '#overallLeaderList',
@@ -871,7 +827,6 @@
     D.teams.forEach(
       team => {
 
-
         const root =
           $(
             `#competition-${team.id}`
@@ -891,7 +846,6 @@
             .map(
               category => {
 
-
                 return [
 
                   'Stage',
@@ -902,7 +856,6 @@
 
                   .map(
                     mode => {
-
 
                       const programmes =
                         D.programmes
@@ -931,7 +884,6 @@
                             ${programmes
                               .map(
                                 p => `
-
 
                                   <div class="programme-row">
 
@@ -965,7 +917,6 @@
                                     </div>
 
                                   </div>
-
 
                                 `
                               )
@@ -1002,7 +953,6 @@
     D.teams.forEach(
       team => {
 
-
         const root =
           $(
             `#people-${team.id}`
@@ -1021,7 +971,6 @@
 
             .map(
               category => {
-
 
                 const members =
                   D.members.filter(
@@ -1046,12 +995,10 @@
                         .map(
                           m => `
 
-
                             <div
                               class="person-card"
                               data-person="${m.id}"
                             >
-
 
                               <div class="avatar">
 
@@ -1093,9 +1040,7 @@
 
                               </div>
 
-
                             </div>
-
 
                           `
                         )
@@ -1133,11 +1078,9 @@
 
   /* =====================================
      INDIVIDUAL MODAL
-     + PLACE
   ===================================== */
 
   function openPerson(id) {
-
 
     const m =
       memberById(id);
@@ -1153,11 +1096,9 @@
     ) return;
 
 
-
     function placeFromPoints(
       points
     ) {
-
 
       const p =
         Number(
@@ -1165,27 +1106,21 @@
         );
 
 
-      if (
-        p === 5
-      ) {
+      if (p === 5) {
 
         return '1st Place';
 
       }
 
 
-      if (
-        p === 3
-      ) {
+      if (p === 3) {
 
         return '2nd Place';
 
       }
 
 
-      if (
-        p === 1
-      ) {
+      if (p === 1) {
 
         return '3rd Place';
 
@@ -1196,11 +1131,9 @@
     }
 
 
-
     $('#personModalName')
       .textContent =
       m.name;
-
 
 
     $('#personModalMeta')
@@ -1218,13 +1151,11 @@
       }`;
 
 
-
     $('#personModalTotal')
       .textContent =
       memberTotal(
         m.id
       );
-
 
 
     const rows =
@@ -1238,7 +1169,6 @@
 
         .sort(
           (a, b) => {
-
 
             const pa =
               programmeById(
@@ -1262,7 +1192,6 @@
         );
 
 
-
     $('#personBreakdown')
       .innerHTML =
 
@@ -1273,7 +1202,6 @@
         rows
           .map(
             r => {
-
 
               const p =
                 programmeById(
@@ -1295,12 +1223,9 @@
 
               return `
 
-
                 <div class="breakdown-row">
 
-
                   <div>
-
 
                     <b>
 
@@ -1345,7 +1270,6 @@
                         ''
                     }
 
-
                   </div>
 
 
@@ -1377,12 +1301,9 @@
                         ''
                     }
 
-
                   </strong>
 
-
                 </div>
-
 
               `;
 
@@ -1405,7 +1326,6 @@
         `;
 
 
-
     modal.classList.add(
       'open'
     );
@@ -1419,7 +1339,6 @@
 
   function renderGallery() {
 
-
     const root =
       $('#galleryGrid');
 
@@ -1427,11 +1346,9 @@
     if (!root) return;
 
 
-
     if (
       !state.gallery.length
     ) {
-
 
       root.innerHTML = `
 
@@ -1453,13 +1370,11 @@
     }
 
 
-
     root.innerHTML =
       state.gallery
 
         .map(
           item => {
-
 
             const isVideo =
               (
@@ -1512,11 +1427,9 @@
                 `;
 
 
-
             return `
 
               <article class="gallery-card">
-
 
                 <div class="gallery-media">
 
@@ -1526,7 +1439,6 @@
 
 
                 <div class="gallery-body">
-
 
                   <h3>
 
@@ -1552,7 +1464,6 @@
 
                   <div class="gallery-actions">
 
-
                     <button
                       class="
                         btn
@@ -1572,12 +1483,9 @@
 
                     </button>
 
-
                   </div>
 
-
                 </div>
-
 
               </article>
 
@@ -1589,7 +1497,6 @@
         .join('');
 
 
-
     $$(
       '[data-gallery-download]'
     )
@@ -1598,7 +1505,6 @@
           btn.addEventListener(
             'click',
             async () => {
-
 
               const original =
                 btn.textContent;
@@ -1612,9 +1518,7 @@
                 'Downloading…';
 
 
-
               try {
-
 
                 const res =
                   await fetch(
@@ -1708,7 +1612,6 @@
 
               } catch {
 
-
                 window.open(
                   btn.dataset.galleryDownload,
                   '_blank',
@@ -1738,14 +1641,13 @@
 
   function installPersonModal() {
 
-
     if (
       !$('#personModal')
     ) return;
 
 
     $('#closePersonModal')
-      .addEventListener(
+      ?.addEventListener(
         'click',
         () =>
           $('#personModal')
@@ -1757,10 +1659,9 @@
 
 
     $('#personModal')
-      .addEventListener(
+      ?.addEventListener(
         'click',
         e => {
-
 
           if (
             e.target.id ===
@@ -1782,391 +1683,550 @@
 
 
   /* =====================================
-     VISITOR ACCESS
+     VISITOR ANALYTICS
   ===================================== */
 
-function getStoredVisitor(){
-  try {
-    const raw = localStorage.getItem('fk_visitor');
+  function getStoredVisitor() {
 
-    if(!raw) return null;
+    try {
 
-    const parsed = JSON.parse(raw);
+      const raw =
+        localStorage.getItem(
+          'fk_visitor'
+        );
 
-    if(!parsed?.name || !parsed?.place) {
+
+      if (!raw) {
+        return null;
+      }
+
+
+      const parsed =
+        JSON.parse(raw);
+
+
+      if (
+        !parsed?.name ||
+        !parsed?.place
+      ) {
+
+        return null;
+      }
+
+
+      return parsed;
+
+    } catch {
+
       return null;
+
+    }
+  }
+
+
+
+  function startVisitorTracking(
+    visitor
+  ) {
+
+    if (
+      page === 'admin' ||
+      !client ||
+      !visitor?.name ||
+      !visitor?.place
+    ) {
+
+      return;
+
     }
 
-    return parsed;
 
-  } catch {
-    return null;
-  }
-}
+    const keyName =
+      'fk_visit_session_key';
 
-
-function startVisitorTracking(visitor){
-
-  if(
-    page === 'admin' ||
-    !client ||
-    !visitor?.name ||
-    !visitor?.place
-  ){
-    return;
-  }
+    const secondsName =
+      'fk_visit_active_seconds';
 
 
-  const keyName = 'fk_visit_session_key';
-  const secondsName = 'fk_visit_active_seconds';
-  const lastTickName = 'fk_visit_last_tick';
+    let sessionKey =
+      sessionStorage.getItem(
+        keyName
+      );
 
 
-  let sessionKey =
-    sessionStorage.getItem(keyName);
+    if (!sessionKey) {
+
+      if (
+        window.crypto &&
+        typeof crypto.randomUUID ===
+          'function'
+      ) {
+
+        sessionKey =
+          crypto.randomUUID();
+
+      } else {
+
+        sessionKey =
+          `${Date.now()}-${Math.random()
+            .toString(36)
+            .slice(2)}`;
+
+      }
 
 
-  // New browser-tab visit
-  if(!sessionKey){
-
-    sessionKey = crypto.randomUUID();
-
-    sessionStorage.setItem(
-      keyName,
-      sessionKey
-    );
-
-    sessionStorage.setItem(
-      secondsName,
-      '0'
-    );
-  }
+      sessionStorage.setItem(
+        keyName,
+        sessionKey
+      );
 
 
-  let activeSeconds =
-    Math.max(
-      0,
-      Number(
-        sessionStorage.getItem(secondsName)
-      ) || 0
-    );
-
-
-  let lastTick = Date.now();
-
-  sessionStorage.setItem(
-    lastTickName,
-    String(lastTick)
-  );
-
-
-  // Create / resume this visit in Supabase
-  client.rpc(
-    'start_visitor_session',
-    {
-      p_name: visitor.name,
-      p_place: visitor.place,
-      p_session_key: sessionKey,
-      p_visitor_created_at:
-        visitor.at || null
-    }
-  )
-  .then(({ error }) => {
-
-    if(error){
-      console.error(
-        'Visitor session start failed:',
-        error
+      sessionStorage.setItem(
+        secondsName,
+        '0'
       );
     }
 
-  });
 
-
-  let syncing = false;
-
-
-  async function syncVisitTime(){
-
-    const now = Date.now();
-
-    // Maximum 30 seconds is accepted for one tick
-    // to avoid large false time values.
-    const elapsed =
+    let activeSeconds =
       Math.max(
         0,
-        Math.min(
-          (now - lastTick) / 1000,
-          30
+        Number(
+          sessionStorage.getItem(
+            secondsName
+          )
+        ) || 0
+      );
+
+
+    let lastTick =
+      Date.now();
+
+
+    client.rpc(
+      'start_visitor_session',
+      {
+        p_name:
+          visitor.name,
+
+        p_place:
+          visitor.place,
+
+        p_session_key:
+          sessionKey,
+
+        p_visitor_created_at:
+          visitor.at || null
+      }
+    )
+      .then(
+        ({ error }) => {
+
+          if (error) {
+
+            console.error(
+              'Visitor session start failed:',
+              error
+            );
+
+          }
+        }
+      );
+
+
+    let syncing =
+      false;
+
+
+    async function syncVisitTime() {
+
+      const now =
+        Date.now();
+
+
+      const elapsed =
+        Math.max(
+          0,
+          Math.min(
+            (
+              now -
+              lastTick
+            ) / 1000,
+            30
+          )
+        );
+
+
+      if (
+        document.visibilityState ===
+        'visible'
+      ) {
+
+        activeSeconds +=
+          elapsed;
+
+      }
+
+
+      lastTick =
+        now;
+
+
+      sessionStorage.setItem(
+        secondsName,
+        String(
+          activeSeconds
         )
       );
 
 
-    // Count only when website tab is visible
-    if(
-      document.visibilityState === 'visible'
-    ){
-      activeSeconds += elapsed;
-    }
-
-
-    lastTick = now;
-
-
-    sessionStorage.setItem(
-      secondsName,
-      String(activeSeconds)
-    );
-
-    sessionStorage.setItem(
-      lastTickName,
-      String(lastTick)
-    );
-
-
-    if(syncing) return;
-
-    syncing = true;
-
-
-    try {
-
-      const { error } =
-        await client.rpc(
-          'touch_visitor_session',
-          {
-            p_session_key: sessionKey,
-            p_duration_seconds:
-              Math.round(activeSeconds)
-          }
-        );
-
-
-      if(error){
-        console.error(
-          'Visitor session update failed:',
-          error
-        );
+      if (syncing) {
+        return;
       }
 
-    } finally {
 
-      syncing = false;
+      syncing =
+        true;
 
+
+      try {
+
+        const {
+          error
+        } =
+          await client.rpc(
+            'touch_visitor_session',
+            {
+              p_session_key:
+                sessionKey,
+
+              p_duration_seconds:
+                Math.round(
+                  activeSeconds
+                )
+            }
+          );
+
+
+        if (error) {
+
+          console.error(
+            'Visitor session update failed:',
+            error
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          'Visitor tracking error:',
+          error
+        );
+
+      } finally {
+
+        syncing =
+          false;
+
+      }
     }
-  }
 
 
-  // Update every 10 seconds
-  const timer =
-    setInterval(
-      syncVisitTime,
-      10000
+    const timer =
+      setInterval(
+        syncVisitTime,
+        10000
+      );
+
+
+    document.addEventListener(
+      'visibilitychange',
+      syncVisitTime
     );
 
 
-  // Update when user changes tab
-  document.addEventListener(
-    'visibilitychange',
-    syncVisitTime
-  );
+    window.addEventListener(
+      'pagehide',
+      () => {
 
+        clearInterval(
+          timer
+        );
 
-  // Final update when leaving website
-  window.addEventListener(
-    'pagehide',
-    () => {
+        syncVisitTime();
 
-      clearInterval(timer);
-
-      syncVisitTime();
-
-    },
-    { once: true }
-  );
-}
-
-
-
-function installAccessGate(){
-
-  if(page === 'admin') return;
-
-
-  if(
-    localStorage.getItem('fk_visitor')
-  ){
-    return;
+      },
+      {
+        once: true
+      }
+    );
   }
 
 
-  const gate =
-    document.createElement('div');
+
+  /* =====================================
+     VISITOR ACCESS GATE
+  ===================================== */
+
+  function installAccessGate() {
+
+    if (
+      page === 'admin'
+    ) {
+
+      return;
+    }
 
 
-  gate.className =
-    'access-gate open';
+    if (
+      localStorage.getItem(
+        'fk_visitor'
+      )
+    ) {
 
-  gate.id =
-    'accessGate';
-
-
-  gate.innerHTML = `
-    <div class="access-card">
-
-      <div class="access-emblem">
-        ☾
-      </div>
-
-      <div class="eyebrow">
-        Welcome to Melaad Fest 2026
-      </div>
-
-      <h1>
-        Fasthabiqul Khairath
-      </h1>
-
-      <p>
-        Please enter your name and place
-        to access the live competition website.
-      </p>
-
-      <form
-        id="visitorForm"
-        class="form-grid"
-      >
-
-        <label>
-          Name
-
-          <input
-            id="visitorName"
-            required
-            maxlength="80"
-            placeholder="Your name"
-          >
-
-        </label>
+      return;
+    }
 
 
-        <label>
-          Place
-
-          <input
-            id="visitorPlace"
-            required
-            maxlength="100"
-            placeholder="Your place"
-          >
-
-        </label>
+    const gate =
+      document.createElement(
+        'div'
+      );
 
 
-        <button
-          class="btn btn-primary"
-          type="submit"
+    gate.className =
+      'access-gate open';
+
+
+    gate.id =
+      'accessGate';
+
+
+    gate.innerHTML = `
+
+      <div class="access-card">
+
+        <div class="access-emblem">
+          ☾
+        </div>
+
+        <div class="eyebrow">
+          Welcome to Melaad Fest 2026
+        </div>
+
+        <h1>
+          Fasthabiqul Khairath
+        </h1>
+
+        <p>
+          Please enter your name and place
+          to access the live competition website.
+        </p>
+
+        <form
+          id="visitorForm"
+          class="form-grid"
         >
-          Enter Website
-        </button>
+
+          <label>
+
+            Name
+
+            <input
+              id="visitorName"
+              required
+              maxlength="80"
+              placeholder="Your name"
+            >
+
+          </label>
 
 
-        <div
-          id="visitorStatus"
-          class="status"
-        ></div>
+          <label>
 
-      </form>
+            Place
 
-    </div>
-  `;
+            <input
+              id="visitorPlace"
+              required
+              maxlength="100"
+              placeholder="Your place"
+            >
 
-
-  document.body.append(gate);
-
-
-  $('#visitorForm')
-    .addEventListener(
-      'submit',
-      async e => {
-
-        e.preventDefault();
+          </label>
 
 
-        const name =
-          $('#visitorName')
-            .value
-            .trim();
+          <button
+            class="btn btn-primary"
+            type="submit"
+          >
+
+            Enter Website
+
+          </button>
 
 
-        const place =
-          $('#visitorPlace')
-            .value
-            .trim();
+          <div
+            id="visitorStatus"
+            class="status"
+          ></div>
+
+        </form>
+
+      </div>
+
+    `;
 
 
-        if(!name || !place){
-          return;
-        }
+    document.body.append(
+      gate
+    );
 
 
-        const st =
-          $('#visitorStatus');
+    $('#visitorForm')
+      ?.addEventListener(
+        'submit',
+        async e => {
+
+          e.preventDefault();
 
 
-        st.className =
-          'status show';
-
-        st.textContent =
-          'Opening website…';
-
-
-        if(client){
-
-          const { error } =
-            await client
-              .from('visitors')
-              .insert({
-                name,
-                place
-              });
+          const name =
+            $('#visitorName')
+              .value
+              .trim();
 
 
-          if(error){
+          const place =
+            $('#visitorPlace')
+              .value
+              .trim();
 
-            st.className =
-              'status show error';
 
-            st.textContent =
-              'Could not save your entry. Please try again.';
+          if (
+            !name ||
+            !place
+          ) {
 
             return;
           }
+
+
+          const st =
+            $('#visitorStatus');
+
+
+          st.className =
+            'status show';
+
+
+          st.textContent =
+            'Opening website…';
+
+
+          if (client) {
+
+            const {
+              data,
+              error
+            } =
+              await client
+                .from(
+                  'visitors'
+                )
+                .insert({
+                  name,
+                  place
+                })
+                .select()
+                .single();
+
+
+            if (error) {
+
+              console.error(
+                'Visitor registration error:',
+                error
+              );
+
+
+              st.className =
+                'status show error';
+
+
+              st.textContent =
+                'Could not save your entry. Please try again.';
+
+
+              return;
+            }
+
+
+            const visitor = {
+
+              name,
+
+              place,
+
+              at:
+                data?.created_at ||
+                new Date()
+                  .toISOString()
+
+            };
+
+
+            localStorage.setItem(
+              'fk_visitor',
+              JSON.stringify(
+                visitor
+              )
+            );
+
+
+            gate.classList.remove(
+              'open'
+            );
+
+
+            startVisitorTracking(
+              visitor
+            );
+
+
+            return;
+          }
+
+
+          const visitor = {
+
+            name,
+
+            place,
+
+            at:
+              new Date()
+                .toISOString()
+
+          };
+
+
+          localStorage.setItem(
+            'fk_visitor',
+            JSON.stringify(
+              visitor
+            )
+          );
+
+
+          gate.classList.remove(
+            'open'
+          );
+
         }
-
-
-        const visitor = {
-          name,
-          place,
-          at: new Date().toISOString()
-        };
-
-
-        localStorage.setItem(
-          'fk_visitor',
-          JSON.stringify(visitor)
-        );
-
-
-        gate.classList.remove('open');
-
-
-        startVisitorTracking(
-          visitor
-        );
-
-      }
-    );
-}
+      );
+  }
 
 
 
@@ -2175,7 +2235,6 @@ function installAccessGate(){
   ===================================== */
 
   function subscribeRealtime() {
-
 
     if (!client) return;
 
@@ -2228,11 +2287,9 @@ function installAccessGate(){
       .subscribe();
 
 
-
     if (
       page === 'gallery'
     ) {
-
 
       client
         .channel(
@@ -2251,9 +2308,7 @@ function installAccessGate(){
 
           async () => {
 
-
             await loadGallery();
-
 
             renderGallery();
 
@@ -2273,7 +2328,6 @@ function installAccessGate(){
   ===================================== */
 
   function renderCurrent() {
-
 
     if (
       page === 'home'
@@ -2309,157 +2363,107 @@ function installAccessGate(){
      INITIALIZE WEBSITE
   ===================================== */
 
-async function init(){
+  async function init() {
 
-  buildChrome();
+    try {
 
-  installAccessGate();
+      buildChrome();
 
-  installPersonModal();
+      installAccessGate();
 
-
-  const storedVisitor =
-    getStoredVisitor();
+      installPersonModal();
 
 
-  if(storedVisitor){
-
-    startVisitorTracking(
-      storedVisitor
-    );
-
-  }
+      const storedVisitor =
+        getStoredVisitor();
 
 
-  await loadMarks();
+      if (
+        storedVisitor
+      ) {
+
+        startVisitorTracking(
+          storedVisitor
+        );
+
+      }
 
 
-  if(page === 'gallery'){
-
-    await loadGallery();
-
-  }
+      await loadMarks();
 
 
-  renderCurrent();
+      if (
+        page === 'gallery'
+      ) {
+
+        await loadGallery();
+
+      }
 
 
-  if(page === 'gallery'){
-
-    renderGallery();
-
-  }
+      renderCurrent();
 
 
-  subscribeRealtime();
+      if (
+        page === 'gallery'
+      ) {
+
+        renderGallery();
+
+      }
 
 
-  window.FK = {
-
-    client,
-
-    configured,
-
-    state,
-
-    loadMarks,
-
-    loadGallery,
-
-    renderCurrent,
-
-    renderGallery,
-
-    teamTotal,
-
-    teamProgrammeTotal,
-
-    memberTotal,
-
-    teamName,
-
-    memberById,
-
-    programmeById,
-
-    esc
-
-  };
+      subscribeRealtime();
 
 
-  document.dispatchEvent(
-    new CustomEvent('fk-ready')
-  );
+      window.FK = {
 
-}
+        client,
+
+        configured,
+
+        state,
+
+        loadMarks,
+
+        loadGallery,
+
+        renderCurrent,
+
+        renderGallery,
+
+        teamTotal,
+
+        teamProgrammeTotal,
+
+        memberTotal,
+
+        teamName,
+
+        memberById,
+
+        programmeById,
+
+        esc
+
+      };
 
 
-    if (
-      page === 'gallery'
-    ) {
-
-      await loadGallery();
-
-    }
+      document.dispatchEvent(
+        new CustomEvent(
+          'fk-ready'
+        )
+      );
 
 
-    renderCurrent();
+    } catch (error) {
 
-
-    if (
-      page === 'gallery'
-    ) {
-
-      renderGallery();
+      console.error(
+        'Website initialization failed:',
+        error
+      );
 
     }
-
-
-    subscribeRealtime();
-
-
-
-    window.FK = {
-
-      client,
-
-      configured,
-
-      state,
-
-      loadMarks,
-
-      loadGallery,
-
-      renderCurrent,
-
-      renderGallery,
-
-      teamTotal,
-
-      teamProgrammeTotal,
-
-      memberTotal,
-
-      teamName,
-
-      memberById,
-
-      programmeById,
-
-      esc
-
-    };
-
-
-    document.dispatchEvent(
-
-      new CustomEvent(
-        'fk-ready'
-      )
-
-    );
-
   }
 
 

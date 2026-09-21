@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
 
   <meta
@@ -18,15 +17,12 @@
     rel="stylesheet"
     href="styles.css"
   >
-
 </head>
 
 
 <body data-page="admin">
 
-
 <main>
-
 
   <!-- ====================================== -->
   <!-- PAGE HEADING -->
@@ -59,9 +55,8 @@
 
     <div class="shell">
 
-
       <!-- ====================================== -->
-      <!-- SETUP / CONNECTION WARNING -->
+      <!-- SETUP WARNING -->
       <!-- ====================================== -->
 
       <div
@@ -88,7 +83,6 @@
           Admin Login
         </h2>
 
-
         <p>
           Enter your administrator email
           and password.
@@ -99,7 +93,6 @@
           id="loginForm"
           class="form-grid"
         >
-
 
           <label>
 
@@ -144,9 +137,7 @@
             class="status"
           ></div>
 
-
         </form>
-
 
       </div>
 
@@ -161,8 +152,9 @@
         hidden
       >
 
-
+        <!-- ====================================== -->
         <!-- ADMIN HEADER -->
+        <!-- ====================================== -->
 
         <div
           style="
@@ -221,7 +213,6 @@
             class="form-grid"
           >
 
-
             <label>
 
               Category
@@ -244,7 +235,6 @@
             </label>
 
 
-
             <label>
 
               Programme
@@ -255,7 +245,6 @@
               ></select>
 
             </label>
-
 
 
             <label>
@@ -280,7 +269,6 @@
             </label>
 
 
-
             <label>
 
               Score Type
@@ -303,7 +291,6 @@
             </label>
 
 
-
             <label
               id="participantField"
             >
@@ -315,7 +302,6 @@
               ></select>
 
             </label>
-
 
 
             <label>
@@ -334,7 +320,6 @@
             </label>
 
 
-
             <button
               class="btn btn-primary"
               type="submit"
@@ -348,9 +333,7 @@
               class="status"
             ></div>
 
-
           </form>
-
 
         </article>
 
@@ -380,7 +363,6 @@
             class="form-grid"
           >
 
-
             <label>
 
               Title
@@ -393,7 +375,6 @@
               >
 
             </label>
-
 
 
             <label>
@@ -410,7 +391,6 @@
             </label>
 
 
-
             <button
               class="btn btn-primary"
               type="submit"
@@ -424,9 +404,7 @@
               class="status"
             ></div>
 
-
           </form>
-
 
         </article>
 
@@ -448,9 +426,7 @@
 
 
           <div
-            style="
-              overflow-x:auto;
-            "
+            style="overflow-x:auto;"
           >
 
             <table>
@@ -502,7 +478,6 @@
 
           </div>
 
-
         </article>
 
 
@@ -523,9 +498,7 @@
 
 
           <div
-            style="
-              overflow-x:auto;
-            "
+            style="overflow-x:auto;"
           >
 
             <table>
@@ -573,6 +546,195 @@
 
           </div>
 
+        </article>
+
+
+
+        <br>
+
+
+
+        <!-- ====================================== -->
+        <!-- VISITOR ANALYTICS -->
+        <!-- ====================================== -->
+
+        <article class="card">
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+              gap:16px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <div>
+
+              <h2
+                style="margin-bottom:6px;"
+              >
+                Visitor Analytics
+              </h2>
+
+              <p
+                style="margin:0;"
+              >
+                Live website entry and
+                active viewing statistics.
+              </p>
+
+            </div>
+
+
+            <button
+              id="visitorRefreshBtn"
+              class="btn btn-secondary btn-small"
+              type="button"
+            >
+              Refresh Analytics
+            </button>
+
+          </div>
+
+
+
+          <div
+            style="
+              display:grid;
+              grid-template-columns:
+                repeat(
+                  auto-fit,
+                  minmax(180px,1fr)
+                );
+              gap:16px;
+              margin-top:22px;
+            "
+          >
+
+            <!-- TOTAL PEOPLE -->
+
+            <div
+              style="
+                border:1px solid rgba(128,128,128,.20);
+                border-radius:16px;
+                padding:18px;
+              "
+            >
+
+              <div class="eyebrow">
+                Total People
+              </div>
+
+
+              <div
+                id="totalVisitors"
+                style="
+                  font-size:34px;
+                  font-weight:800;
+                  line-height:1.1;
+                  margin-top:8px;
+                "
+              >
+                0
+              </div>
+
+
+              <small>
+                Registered visitors
+              </small>
+
+            </div>
+
+
+
+            <!-- WEBSITE ENTRIES -->
+
+            <div
+              style="
+                border:1px solid rgba(128,128,128,.20);
+                border-radius:16px;
+                padding:18px;
+              "
+            >
+
+              <div class="eyebrow">
+                Website Entries
+              </div>
+
+
+              <div
+                id="totalEntries"
+                style="
+                  font-size:34px;
+                  font-weight:800;
+                  line-height:1.1;
+                  margin-top:8px;
+                "
+              >
+                0
+              </div>
+
+
+              <small>
+                Total visit sessions
+              </small>
+
+            </div>
+
+
+
+            <!-- TOTAL WATCHING TIME -->
+
+            <div
+              style="
+                border:1px solid rgba(128,128,128,.20);
+                border-radius:16px;
+                padding:18px;
+              "
+            >
+
+              <div class="eyebrow">
+                Total Watching Time
+              </div>
+
+
+              <div
+                id="totalWatchTime"
+                style="
+                  font-size:30px;
+                  font-weight:800;
+                  line-height:1.1;
+                  margin-top:8px;
+                "
+              >
+                0s
+              </div>
+
+
+              <small>
+                Active visible-page time
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <p
+            style="
+              margin-top:18px;
+              font-size:13px;
+              opacity:.78;
+            "
+          >
+            Existing visitor records are preserved.
+            Historical visitors are counted once as
+            their original website entry. Accurate
+            repeat visits and watching time start
+            after the analytics upgrade.
+          </p>
 
         </article>
 
@@ -582,254 +744,76 @@
 
 
 
-      <!-- ====================================== -->
-<!-- VISITOR ANALYTICS -->
-<!-- ====================================== -->
-
-<article class="card">
-
-  <div
-    style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-    "
-  >
-
-    <div>
-
-      <h2 style="margin-bottom:6px;">
-        Visitor Analytics
-      </h2>
-
-      <p style="margin:0;">
-        Live website entry and active viewing statistics.
-      </p>
-
-    </div>
-
-
-    <button
-      id="visitorRefreshBtn"
-      class="btn btn-secondary btn-small"
-      type="button"
-    >
-      Refresh Analytics
-    </button>
-
-  </div>
-
-
-  <div
-    style="
-      display:grid;
-      grid-template-columns:
-        repeat(
-          auto-fit,
-          minmax(180px,1fr)
-        );
-      gap:16px;
-      margin-top:22px;
-    "
-  >
-
-
-    <!-- TOTAL PEOPLE -->
-
-    <div
-      style="
-        border:1px solid rgba(255,255,255,.10);
-        border-radius:16px;
-        padding:18px;
-      "
-    >
-
-      <div class="eyebrow">
-        Total People
-      </div>
-
-      <div
-        id="totalVisitors"
-        style="
-          font-size:34px;
-          font-weight:800;
-          line-height:1.1;
-          margin-top:8px;
-        "
-      >
-        0
-      </div>
-
-      <small>
-        Registered visitors
-      </small>
-
-    </div>
-
-
-
-    <!-- TOTAL WEBSITE ENTRIES -->
-
-    <div
-      style="
-        border:1px solid rgba(255,255,255,.10);
-        border-radius:16px;
-        padding:18px;
-      "
-    >
+        <!-- ====================================== -->
+        <!-- VISITOR ACCESS LOG -->
+        <!-- ====================================== -->
 
-      <div class="eyebrow">
-        Website Entries
-      </div>
+        <article class="card">
 
-      <div
-        id="totalEntries"
-        style="
-          font-size:34px;
-          font-weight:800;
-          line-height:1.1;
-          margin-top:8px;
-        "
-      >
-        0
-      </div>
+          <h2>
+            Visitor Access Log
+          </h2>
 
-      <small>
-        Total visit sessions
-      </small>
 
-    </div>
+          <div
+            style="overflow-x:auto;"
+          >
 
+            <table>
 
+              <thead>
 
-    <!-- TOTAL WATCH TIME -->
+                <tr>
 
-    <div
-      style="
-        border:1px solid rgba(255,255,255,.10);
-        border-radius:16px;
-        padding:18px;
-      "
-    >
+                  <th>
+                    Name
+                  </th>
 
-      <div class="eyebrow">
-        Total Watching Time
-      </div>
+                  <th>
+                    Place
+                  </th>
 
-      <div
-        id="totalWatchTime"
-        style="
-          font-size:30px;
-          font-weight:800;
-          line-height:1.1;
-          margin-top:8px;
-        "
-      >
-        0s
-      </div>
+                  <th>
+                    First Entered
+                  </th>
 
-      <small>
-        Active visible-page time
-      </small>
+                  <th>
+                    Website Entries
+                  </th>
 
-    </div>
+                  <th>
+                    Watching Time
+                  </th>
 
-  </div>
+                  <th>
+                    Last Seen
+                  </th>
 
+                </tr>
 
-  <p
-    style="
-      margin-top:18px;
-      font-size:13px;
-      opacity:.78;
-    "
-  >
-    Existing visitor records are preserved.
-    Historical visitors are counted once as
-    their original website entry. Accurate
-    repeat visits and watching time start
-    after this analytics upgrade.
-  </p>
+              </thead>
 
-</article>
 
+              <tbody
+                id="visitorTable"
+              >
 
+                <tr>
 
-<br>
+                  <td colspan="6">
+                    No visitor entries yet.
+                  </td>
 
+                </tr>
 
+              </tbody>
 
-<!-- ====================================== -->
-<!-- VISITOR ACCESS LOG -->
-<!-- ====================================== -->
+            </table>
 
-<article class="card">
+          </div>
 
-  <h2>
-    Visitor Access Log
-  </h2>
+        </article>
 
-
-  <div
-    style="overflow-x:auto;"
-  >
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>
-            Name
-          </th>
-
-          <th>
-            Place
-          </th>
-
-          <th>
-            First Entered
-          </th>
-
-          <th>
-            Website Entries
-          </th>
-
-          <th>
-            Watching Time
-          </th>
-
-          <th>
-            Last Seen
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody
-        id="visitorTable"
-      >
-
-        <tr>
-
-          <td colspan="6">
-            No visitor entries yet.
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-</article>
 
       </div>
       <!-- END ADMIN APP -->
@@ -839,32 +823,28 @@
 
   </section>
 
-
 </main>
 
 
 
 <!-- ====================================== -->
 <!-- JAVASCRIPT -->
-<!-- IMPORTANT: KEEP THIS ORDER -->
+<!-- KEEP THIS ORDER -->
 <!-- ====================================== -->
-
 
 <script src="config.js"></script>
 
-
 <script src="data.js"></script>
-
 
 <script
   src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
-
 <script src="app.js"></script>
 
-
 <script src="admin.js"></script>
+
+
 </body>
 
 </html>
